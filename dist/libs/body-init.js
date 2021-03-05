@@ -10,8 +10,47 @@ const body = $('#main');
 let barcodeNumber = 0;
 const image_format = ['apng', 'bmp', 'gif', 'ico', 'cur', 'jpeg', 'jpg', 'jpeg', 'jfif', 'pjpeg',
     'pjp', 'png', 'svg', 'tif', 'tiff', 'webp'];
+const styleDefault = `
+@page {
+    margin: 0;
+}
+body {
+    font-size: 12px;
+    /*line-height: 24px;*/
+}
+.barcode-container::after{content: '';display: table;clear: both;}
+.font {font-size: 12px; margin: 0 15px;}
+
+table {
+    width: 100%;
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: monospace, cursive;
+}
+
+table tbody {
+    border-top: 1px solid #999;
+}
+
+table th, table td {
+    padding: 7px 2px;
+}
+
+table tr {
+    border-bottom: 1px dotted #999;
+    padding: 5px 0;
+    text-align: center;
+}
+
+table img {
+    max-height: 40px;
+}
+`;
+  
 
 ipcRender.on('body-init', function (event, arg) {
+    body.append(`<style>${arg.styleBody || styleDefault}</style>`)
     body.css({width: arg.width ? arg.width : 170 , margin: arg.margin ? arg.margin : 0});
     event.sender.send('body-init-reply', {status: true, error: null});
 });
